@@ -1071,13 +1071,19 @@ def bumen():
 @admin_login_req
 @admin_power
 def beifen():
-    key = "传入数据库密码"
+    key = "" #数据库密码
     name = on_created()
     path = "app/backup/"+name
     form = beifenser()
 
     if form.validate_on_submit():
-        os.system("mysqldump -uroot -p{0} sm2.0 > {1}.dump" .format(key,path))
-        os.system("mysqldump  -uroot -p{0} --host=localhost --all-databases> {1}.txt" .format (key,path))
-        flash("备份完成")
+        import sys
+        WIN = sys.platform.startswith('win')
+        if WIN:  # 如果是 Windows 系统，使用三个斜线
+            flash("服务器不支持此操作！")
+        else:  # 否则使用四个斜线
+            os.system("mysqldump -uroot -p{0} flask_admin > {1}.dump".format(key, path))
+            os.system("mysqldump  -uroot -p{0} --host=localhost --all-databases> {1}.txt".format(key, path))
+            flash("备份完成")
+
     return render_template("admin/beifen.html",form=form)
