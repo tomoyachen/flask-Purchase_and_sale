@@ -32,11 +32,15 @@ app.config['MAIL_PASSWORD'] = ''
 
 mail = Mail(app)
 
+
+
 # 注册蓝图
 from flask_admin.admin import admin as admin_blueprint
 app.register_blueprint(admin_blueprint,url_prefix='/admin/')
 from flask_admin.home import home as home_blueprint
 app.register_blueprint(home_blueprint,url_prefix='/')
+
+
 
 @app.errorhandler(404)
 def page_not_found(error):
